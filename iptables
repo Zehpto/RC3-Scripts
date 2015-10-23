@@ -1,0 +1,19 @@
+#!/bin/bash
+
+echo Flushed Existing IPTables Rules
+iptables -F
+
+echo Allow Inbound Traffic Only on Ports 80 and 53
+echo Allow Inbound Traffic from 10.10.10.0/24 on Port 22
+iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+iptables -A INPUT -p tcp --dport 53 -j ACCEPT
+iptables -A INPUT -p tcp --dport 22 -s 10.10.10.0/24 -j ACCEPT
+iptables -A INPUT -j DROP
+
+echo Allow Outbound Traffic Only on Ports 80 and 53
+echo Allow Outbound Traffic from 10.10.10.0/24 on Port 22
+iptables -A OUTPUT -p tcp --sport 80 -j ACCEPT
+iptables -A OUTPUT -p tcp --sport 53 -j ACCEPT
+iptables -A OUTPUT -p tcp --sport 22 -s 10.10.10.0/24 -j ACCEPT
+iptables -A OUTPUT -j DROP
+ 
